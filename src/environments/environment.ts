@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'back.ws.loc'
+  baseUrl: 'http://localhost:8000'
 };

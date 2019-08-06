@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ProductService } from '../product.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
@@ -10,22 +10,20 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ProductComponent implements OnInit {
 
   products: Array<any>;
-  selectedProduct: any;
-  form: FormGroup;
-  showAddErrors = false;
-  editable = new Array<boolean>();
-  editForm: FormGroup;
-  productToEdit : any;
-  showEditErrors = false;
-  nametoEdit = 'name';
-  emailtoEdit = 'email';
-  loadingEdit = false;
-  loading = true;
-  currentPage = 1;
-  orderByProperty = '+id';
+  isLoading = true;
+  isEditing = false;
+  isAdding = false;
+
+  addProductForm: FormGroup;
+  editProductForm: FormGroup;
+
+  designation = new FormControl('', Validators.required);
+  quantity = new FormControl('', Validators.required);
+  price = new FormControl('', Validators.required);
 
   constructor(
     private productService: ProductService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -33,21 +31,90 @@ export class ProductComponent implements OnInit {
   }
 
   getProducts(): void {
-    this.loading = true;
+    this.isLoading = true;
     this.productService.getProducts().subscribe(
       res => {
         if (res['success'] === true) {
           this.products = res['data'];
-          //this.initEditable();
         } else {
           /*this.matSnackBar.open('Mise à niveau avec succès', 'ok', {
             duration: 3000,
             panelClass : ['mat-bar-class']
           });*/
         }
-        this.loading = false;
+        this.isLoading = false;
       },
     );
+  }
+
+  enableAdding(): void {
+    this.addProductForm = this.formBuilder.group({
+      designation: this.designation,
+      quantity: this.quantity,
+      price: this.price
+    });
+    this.isAdding = true;
+  }
+
+  createProduct(): void {
+    this.productService.createProduct(this.addProductForm.value).subscribe(
+      res => {
+        console.log(res);
+        if (res['success'] === true) {
+          const newProduct = res['data'];
+          this.products.push(newProduct);
+          this.addProductForm.reset();
+          this.isAdding = false;
+          // this.toast.setMessage('item added successfully.', 'success');
+        } else {
+          /*this.matSnackBar.open('Mise à niveau avec succès', 'ok', {
+            duration: 3000,
+            panelClass : ['mat-bar-class']
+          });*/
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  enableEditing(product): void {
+    this.editProductForm = this.formBuilder.group({
+      id: product.id,
+      designation: product.designation,
+      quantity: product.quantity,
+      price: product.price
+    });
+    this.isEditing = true;
+  }
+
+  updateProduct(): void {
+    const id = this.editProductForm.value.id;
+    const data = this.editProductForm.value;
+    this.productService.updateProduct(id, data).subscribe(
+      res => {
+        if (res['success'] === true) {
+          this.getProducts();
+          this.isEditing = false;
+        }
+      }
+    );
+    // this.productService.updateProduct()
+  }
+
+  deleteProduct(product: any): void {
+    console.log(product.id);
+    if (window.confirm('Are you sure you want to permanently delete this Product?')) {
+      this.productService.deleteProduct(product.id).subscribe(
+        res => {
+          if(res['success'] === true){
+            console.log(res);
+            this.getProducts();
+          }
+          // this.toast.setMessage('item deleted successfully.', 'success');
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   /*updateProduct(index: any): void {
