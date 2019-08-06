@@ -1,11 +1,11 @@
 <!-- <app-loading [condition]="isLoading"></app-loading>
 <app-toast [message]="toast.message"></app-toast> -->
 
-<button class="btn btn-sm btn-warning" (click)="showProductForm()">
-    <i class="fa fa-pencil"></i> Ajouter un produit</button>
+<button *ngIf="!isAdding" class="btn btn-sm btn-warning" (click)="enableAdding()">
+    <i class="fa fa-pencil"></i>Ajouter un produit</button>
 
 <mat-card *ngIf="isAdding">
-    <mat-card-header>Ajouter</mat-card-header>
+    <mat-card-header>Ajouter un produit</mat-card-header>
     <mat-card-content>
         <form [formGroup]="addProductForm" (ngSubmit)="createProduct()">
             <mat-form-field>
@@ -21,6 +21,7 @@
             </mat-form-field>
 
             <button mat-raised-button color="primary" type="submit" [disabled]="!addProductForm.valid">Ajouter</button>
+            <button mat-raised-button color="default"  (click)="resetAddForm()">Annuler</button>
         </form>
     </mat-card-content>
 </mat-card>

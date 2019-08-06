@@ -55,6 +55,12 @@ export class ProductComponent implements OnInit {
     });
     this.isAdding = true;
   }
+  resetAddForm(): void {
+    this.isAdding = false;
+    this.designation = new FormControl('', Validators.required);
+    this.quantity = new FormControl('', Validators.required);
+    this.price = new FormControl('', Validators.required);
+  }
 
   createProduct(): void {
     this.productService.createProduct(this.addProductForm.value).subscribe(
@@ -106,7 +112,7 @@ export class ProductComponent implements OnInit {
     if (window.confirm('Are you sure you want to permanently delete this Product?')) {
       this.productService.deleteProduct(product.id).subscribe(
         res => {
-          if(res['success'] === true){
+          if (res['success'] === true) {
             console.log(res);
             this.getProducts();
           }
