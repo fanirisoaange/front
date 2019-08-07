@@ -1,0 +1,75 @@
+/* Début popup */
+.custom-popup {
+    max-width: 50vw;
+    position: relative;
+    width: 800px;
+}
+.custom-popup .mat-tab-header {
+    background: #fff;
+    border-bottom: none;
+    left: 50%;
+    order: 1;
+    position: absolute;
+    transform: translate(-50%);
+    width: 100%;
+    z-index: 98;
+}
+.custom-popup .mat-tab-header .mat-ink-bar {
+    visibility: hidden !important;
+}
+.custom-popup .mat-tab-labels {
+    justify-content: center;
+}
+.custom-popup .mat-tab-label {
+    background: transparent !important;
+}
+.custom-popup .close-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}
+.custom-popup .close-container .back {
+    background: none;
+    border-bottom: none;
+    font-size: 0;
+    line-height: normal;
+    margin-top: 0;
+    min-width: inherit;
+    padding: 5px;
+}
+.custom-popup .close-container .back:before {
+    content: 'X';
+    display: block;
+    font-size: 15px;
+}
+.custom-popup .mat-tab-body-wrapper {
+    z-index: 9;
+}
+.custom-popup .form {
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.custom-popup .form .form-group {
+    margin: 0 auto 5px;
+    width: 80%;
+}
+.custom-popup .cotain-main {
+    margin-top: 50px;
+}
+.custom-popup .mat-dialog-actions {
+    margin-bottom: 0;
+}
+/* Fin popup */
+
+
+.btn.save-btn {
+    background: #5A8D1D;
+    padding: 10px 30px;
+    color: #fff;
+    font-weight: 300;
+    font-size: 14px;
+    box-shadow: 0 4px 4px #9B9B9B;
+}

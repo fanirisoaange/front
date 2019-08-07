@@ -1,6 +1,8 @@
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ProductService } from '../product.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
+import { CreateOrEditProductComponent } from './create-or-edit-product/create-or-edit-product.component';
 
 @Component({
   selector: 'app-product',
@@ -13,6 +15,7 @@ export class ProductComponent implements OnInit {
   isLoading = true;
   isEditing = false;
   isAdding = false;
+  product : any;
 
   addProductForm: FormGroup;
   editProductForm: FormGroup;
@@ -23,7 +26,9 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -37,125 +42,67 @@ export class ProductComponent implements OnInit {
         if (res['success'] === true) {
           this.products = res['data'];
         } else {
-          /*this.matSnackBar.open('Mise à niveau avec succès', 'ok', {
-            duration: 3000,
-            panelClass : ['mat-bar-class']
-          });*/
+          this.matSnackBar.open(res['message'], 'Erreur', {
+            duration: 3000
+          });
         }
         this.isLoading = false;
       },
     );
   }
 
-  enableAdding(): void {
-    this.addProductForm = this.formBuilder.group({
-      designation: this.designation,
-      quantity: this.quantity,
-      price: this.price
-    });
-    this.isAdding = true;
-  }
-
-  createProduct(): void {
-    this.productService.createProduct(this.addProductForm.value).subscribe(
-      res => {
-        console.log(res);
-        if (res['success'] === true) {
-          const newProduct = res['data'];
-          this.products.push(newProduct);
-          this.addProductForm.reset();
-          this.isAdding = false;
-          // this.toast.setMessage('item added successfully.', 'success');
-        } else {
-          /*this.matSnackBar.open('Mise à niveau avec succès', 'ok', {
-            duration: 3000,
-            panelClass : ['mat-bar-class']
-          });*/
-        }
-      },
-      error => console.log(error)
-    );
-  }
-
-  enableEditing(product): void {
-    this.editProductForm = this.formBuilder.group({
-      id: product.id,
-      designation: product.designation,
-      quantity: product.quantity,
-      price: product.price
-    });
-    this.isEditing = true;
-  }
-
-  updateProduct(): void {
-    const id = this.editProductForm.value.id;
-    const data = this.editProductForm.value;
-    this.productService.updateProduct(id, data).subscribe(
-      res => {
-        if (res['success'] === true) {
-          this.getProducts();
-          this.isEditing = false;
-        }
-      }
-    );
-    // this.productService.updateProduct()
-  }
-
-  deleteProduct(product: any): void {
-    console.log(product.id);
-    if (window.confirm('Are you sure you want to permanently delete this Product?')) {
-      this.productService.deleteProduct(product.id).subscribe(
+  deleteProduct(): void {
+      this.productService.deleteProduct(this.product.id).subscribe(
         res => {
           if(res['success'] === true){
-            console.log(res);
             this.getProducts();
-          }
-          // this.toast.setMessage('item deleted successfully.', 'success');
-        },
-        error => console.log(error)
-      );
-    }
-  }
-
-  /*updateProduct(index: any): void {
-    this.showEditErrors = true;
-    if (this.editForm.valid) {
-      this.loadingEdit = true;
-      this.userService.updateUser(this.userToEdit).subscribe(
-        res => {
-          if (res['success'] === true) {
-            console.log('ok');
-            this.messageShared.setMessage(new MessageDTO("mise à jour avec success", this.toastService.typeToast.success, 'SUCCES'));
-            this.editable[index] = false;
-            this.resetEditForm();
-            this.getUsers();
+            this.matSnackBar.open(res['message'], 'Succès', {
+              duration: 3000
+            });
           } else {
-            this.messageShared.setMessage(new MessageDTO("erreur", this.toastService.typeToast.error, 'ERREUR'));
+            this.matSnackBar.open(res['message'], 'Erreur', {
+              duration: 3000
+            });
           }
-          this.loadingEdit = false;
-          this.showEditErrors = false;
+          document.getElementById('closeButton').click();
         }
-
       );
-      
-    }
   }
 
-  resetEditForm(): void {
-    this.nametoEdit = "";
-    this.emailtoEdit = "";
+  selectedProduct(row){
+    this.product = row
   }
 
-  resetAddForm(): void {
-    this.markAsPristine(this.form);
+  public showProductCreatForm() {
+    const dialogConfig = new MatDialogConfig();
+     dialogConfig.disableClose = true;
+     dialogConfig.autoFocus = true;
+     dialogConfig.data = {
+       id: 0,
+       title: 'Creation d\'un produit'
+     };
+     const dialogRef = this.dialog.open(CreateOrEditProductComponent, dialogConfig);
+     dialogRef.afterClosed().subscribe(result => {
+       this.getProducts();
+     });
+   }
+
+   showProductEditForm(row) {
+     console.log(row);
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        id: row.id,
+        title: 'Modification d\'un produit',
+      };
+      const dialogRef = this.dialog.open(CreateOrEditProductComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.getProducts();
+    });
   }
 
-  dismiss(index: number): void {
-    this.editable[index] = false;
-    this.userToEdit = new User();
-    this.showEditErrors = false;
-  }
-
+    /*
   pageChanged(page: number): void {
     this.setPage(page);
   }
@@ -172,15 +119,7 @@ export class ProductComponent implements OnInit {
       this.orderByProperty = property;
     }
   }
-
-
-  markAsPristine(form: FormGroup): void {
-    Object.keys(form.controls).forEach( key => {
-        form.controls[key].markAsPristine();
-    });
-  } */
-
-
+ */
 
 
 }

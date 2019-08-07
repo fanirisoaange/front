@@ -29,7 +29,7 @@ export class ProductService {
   }
 
   getProduct(id) : any {
-    return this.http.get<any>(this.baseUrlApp + '/api/getProduct' + id, { });
+    return this.http.get<any>(this.baseUrlApp + '/api/getProduct/' + id, { });
   }
 
 }
