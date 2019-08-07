@@ -53,4 +53,8 @@ a:hover {
 [hidden] {
     display: none;
   }
+
+  .mat-bar-class {
+    margin-bottom:  100% !important;
+    }
   

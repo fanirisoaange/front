@@ -10,6 +10,7 @@ import { ProductService } from '../../product.service';
 })
 export class CreateOrEditProductComponent implements OnInit {
   form: FormGroup;
+  quantity : number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,13 +34,19 @@ export class CreateOrEditProductComponent implements OnInit {
   }
 
   initEditForm(id) {
-    this.productService.getProduct(id).subscribe(res => {
-      let product = res.data;
+    if(this.data.product){
+      let product = this.data.product;
+      this.quantity = product.quantity;
       this.form.controls['id'].setValue(product.id);
       this.form.controls['designation'].setValue(product.designation);
-      this.form.controls['quantity'].setValue(product.quantity);
+      if(this.data.type){
+        this.form.controls['quantity'].setValue('');
+      } else {
+        this.form.controls['quantity'].setValue(product.quantity);
+      }
       this.form.controls['price'].setValue(product.price);
-    });
+    }  
+    
   }
 
   createProduct(): void {
@@ -48,11 +55,13 @@ export class CreateOrEditProductComponent implements OnInit {
         res => {
           if (res['success'] === true) {
             this.matSnackBar.open(res['message'], 'Succès', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           } else {
             this.matSnackBar.open(res['message'], 'Erreur', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           }
           this.dialog.closeAll();
@@ -68,17 +77,24 @@ export class CreateOrEditProductComponent implements OnInit {
         res => {
           if (res['success'] === true) {
             this.matSnackBar.open(res['message'], 'Succès', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           } else {
             this.matSnackBar.open(res['message'], 'Erreur', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           }
           this.dialog.closeAll();
         }
       );
     }
+  }
+
+  addToQuantity() : void {
+    this.form.value.quantity = this.form.value.quantity +this.quantity;
+    this.updateProduct();
   }
 
 }

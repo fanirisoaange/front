@@ -9,21 +9,16 @@ import { ProductService } from './product.service';
 
 
 // Angular Material
-// import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import {MatCardModule,} from '@angular/material';
-import { MatSnackBarModule,MatTabsModule, MatIconModule,   MatToolbarModule, MatTooltipModule} from '@angular/material';
+import { MatCardModule, MatProgressSpinnerModule , MatSnackBarModule,MatTabsModule, MatIconModule,   
+        MatToolbarModule, MatTooltipModule, MatTableModule, MatSortModule, MatPaginatorModule, 
+        MatInputModule, MatDialogModule} from '@angular/material';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreateOrEditProductComponent } from './product/create-or-edit-product/create-or-edit-product.component'; 
-
-//import {MatTabsModule , MatMenuModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-
+import { LoadingScreenService } from './loading/loading-screen.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -36,7 +31,6 @@ import { CreateOrEditProductComponent } from './product/create-or-edit-product/c
     HttpModule,
     MatDialogModule,
     FormsModule,
-    // MatButtonModule,
     MatInputModule,
     MatIconModule,
     MatSortModule,
@@ -49,9 +43,14 @@ import { CreateOrEditProductComponent } from './product/create-or-edit-product/c
     ReactiveFormsModule,
     MatSnackBarModule  ,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxSpinnerModule,
+    MatProgressSpinnerModule
   ],
-  providers: [ProductService],
+  providers: [
+    ProductService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingScreenService, multi: true },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     CreateOrEditProductComponent

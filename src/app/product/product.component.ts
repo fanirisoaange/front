@@ -43,7 +43,8 @@ export class ProductComponent implements OnInit {
           this.products = res['data'];
         } else {
           this.matSnackBar.open(res['message'], 'Erreur', {
-            duration: 3000
+            duration: 3000,
+            verticalPosition: 'top',
           });
         }
         this.isLoading = false;
@@ -59,11 +60,13 @@ export class ProductComponent implements OnInit {
 
             this.getProducts();
             this.matSnackBar.open(res['message'], 'Succès', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           } else {
             this.matSnackBar.open(res['message'], 'Erreur', {
-              duration: 3000
+              duration: 3000,
+              panelClass: ['mat-bar-class']
             });
           }
           document.getElementById('closeButton').click();
@@ -90,13 +93,14 @@ export class ProductComponent implements OnInit {
    }
 
    showProductEditForm(row) {
-     console.log(row);
+
     const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.data = {
         id: row.id,
         title: 'Modification d\'un produit',
+        product : row
       };
       const dialogRef = this.dialog.open(CreateOrEditProductComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
@@ -104,24 +108,21 @@ export class ProductComponent implements OnInit {
     });
   }
 
-    /*
-  pageChanged(page: number): void {
-    this.setPage(page);
+  
+    addStock(row) {
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        id: row.id,
+        product : row,
+        title: 'Approvisionner',
+        type : "appStock"
+      };
+      const dialogRef = this.dialog.open(CreateOrEditProductComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.getProducts();
+    });
   }
-
-  setPage(page: number): void {
-    this.currentPage = page;
-  }
-
-
-  orderBy(property): void {
-    if (this.orderByProperty === property) {
-      this.orderByProperty = '-' + property;
-    } else {
-      this.orderByProperty = property;
-    }
-  }
- */
-
 
 }

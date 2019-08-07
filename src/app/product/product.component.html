@@ -1,82 +1,82 @@
-
-<!-- <app-loading [condition]="isLoading"></app-loading>-->
 <div class="productcontent">
-    <section class="btn-create"><button (click)="showProductCreatForm()"
-        class="btn btn-secondary">Ajouter un produit</button></section>
+  <section class="btn-create">
+    <button (click)="showProductCreatForm()" class="btn btn-secondary">Ajouter un produit</button>
+  </section>
 
-<mat-card>
-    <mat-card-header><p>Liste des produits</p></mat-card-header>
+  <mat-card>
+
+    <div class="widget-title">
+      <h5 class="titleBloc">Liste des produits</h5>
+    </div>
+
     <mat-card-content>
 
-        <table class="table table-striped  tdLeft tableiddle">
-                <thead>
-                  <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Designation</th>
-                        <th scope="col">Quantité</th>
-                        <th scope="col">Prix</th>
-                        <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-                <!--tbody *ngIf="loading">
-                  <tr>
-                    <td colspan="5">
-                      <app-loader [load]="loading"></app-loader>
-                    </td>
-                  </tr>
-                </tbody-->
-                <tbody *ngIf="products?.length === 0">
-                        <tr>
-                            <td colspan="6">Aucun produit dans la base de données</td>
-                        </tr>
-                    </tbody>
-  
-                <tbody>
-                  <tr  *ngFor="let product of products ; let i = index">
-                        <td>
-                            <a>{{product.id}}</a>
-                        </td>
-                        <td>
-                            <a>{{product.designation}}</a>
-                        </td>
-                        <td>
-                            <a>{{product.quantity}}</a>
-                        </td>
-                        <td>
-                            <a>{{product.price}}</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" (click)="showProductEditForm(product)" matTooltip= "Modifier">
-                                <i class="fa fa-pencil"></i></button>
-                            
-                            <button class="btn btn-sm btn-danger" data-toggle="modal" [attr.data-target]="'#deleteModal'" (click)="selectedProduct(product)" matTooltip= "Supprimer">
-                                <i class="fa fa-trash"></i> </button>
+      <table class="table table-striped  tdLeft tableiddle">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Désignation</th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Prix (unitaire)</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="products?.length === 0">
+          <tr>
+            <td colspan="6">Aucun produit dans la base de données</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let product of products ; let i = index">
+            <td>
+              <a>{{product.id}}</a>
+            </td>
+            <td>
+              <a>{{product.designation}}</a>
+            </td>
+            <td>
+              <a>{{product.quantity}}</a>
+            </td>
+            <td>
+              <a>{{product.price}}</a>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-warning" (click)="showProductEditForm(product)" matTooltip="Modifier">
+                <i class="fa fa-pencil"></i>
+              </button>
 
-                            <!--button class="btn btn-sm btn-" data-toggle="modal" [attr.data-target]="'#deleteModal'" (click)="selectedProduct(product)" matTooltip= "Supprimer">
-                                    <i class="fa fa-trash"></i> </button>
-                        </td-->
-                  </tr>
-                </tbody>
-              </table>
-        
-            <div class="modal fade" [attr.id]="'deleteModal'" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header warning">
-                          <h5 class="modal-title text-white">Confirmation</h5>
-                          <button type="button" [attr.id]="'closeButton'" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <p>Etes-vous sur de vouloir supprimer ce produit</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btns mdm-btn warning" (click)="deleteProduct()">Supprimer</button>
-                            <button type="button" class="btn btns mdm-btn btn-warning" data-dismiss="modal">Annuler</button> 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <button class="btn btn-sm btn-danger" data-toggle="modal" [attr.data-target]="'#deleteModal'" (click)="selectedProduct(product)"
+                matTooltip="Supprimer">
+                <i class="fa fa-trash"></i>
+              </button>
+
+              <button class="btn btn-sm btn-primary" (click)="addStock(product)" matTooltip="Approvisionner">
+                <i class="fa fa-plus"></i>
+              </button>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="modal fade" [attr.id]="'deleteModal'" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header warning">
+              <h5 class="modal-title text-white">Confirmation</h5>
+              <button type="button" [attr.id]="'closeButton'" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Etes-vous sur de vouloir supprimer ce produit</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btns mdm-btn warning" (click)="deleteProduct()">Supprimer</button>
+              <button type="button" class="btn btns mdm-btn btn-warning" data-dismiss="modal">Annuler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </mat-card-content>
-</mat-card></div>
+  </mat-card>
+</div>
