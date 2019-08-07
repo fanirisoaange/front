@@ -51,10 +51,12 @@ export class ProductComponent implements OnInit {
     );
   }
 
+
   deleteProduct(): void {
       this.productService.deleteProduct(this.product.id).subscribe(
         res => {
           if(res['success'] === true){
+
             this.getProducts();
             this.matSnackBar.open(res['message'], 'Succès', {
               duration: 3000
