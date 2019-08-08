@@ -15,10 +15,7 @@
   "dependencies": {
     "@angular/animations": "^5.2.0",
     "@angular/cdk": "^5.2.0",
-<<<<<<< HEAD
-=======
     "@angular/cli": "1.6.8",
->>>>>>> ce2e1e900294baa4277c0b9c9b1103d4e441ff5b
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/compiler-cli": "^5.2.0",
@@ -31,21 +28,14 @@
     "@angular/router": "^5.2.0",
     "bootstrap": "^4.1.1",
     "core-js": "^2.4.1",
-<<<<<<< HEAD
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.3.1",
-    "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19",
-    "ngx-spinner": "2.0.0"
-=======
-    "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "path": "^0.12.7",
     "rxjs": "^5.5.6",
     "typescript": "~2.5.3",
-    "zone.js": "^0.8.19"
->>>>>>> ce2e1e900294baa4277c0b9c9b1103d4e441ff5b
+    "zone.js": "^0.8.19",
+    "ngx-spinner": "2.0.0",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "@angular/language-service": "^5.2.0",

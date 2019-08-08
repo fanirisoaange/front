@@ -11,6 +11,7 @@ import { ProductService } from '../../product.service';
 export class CreateOrEditProductComponent implements OnInit {
   form: FormGroup;
   quantity : number;
+  tab : any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -23,7 +24,8 @@ export class CreateOrEditProductComponent implements OnInit {
       id : [''],
       designation: ['', Validators.required],
       quantity: ['', Validators.required],
-      price: ['', Validators.required]
+      price: ['', Validators.required],
+      image: ['']
     });
   }
 
@@ -46,6 +48,21 @@ export class CreateOrEditProductComponent implements OnInit {
       }
       this.form.controls['price'].setValue(product.price);
     }  
+    
+  }
+
+
+  onSelectFile(event): void {
+    let reader = new FileReader();
+    if(event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.form.get('image').setValue(
+          reader.result.split(',')[1]
+        )
+      };
+    }
     
   }
 

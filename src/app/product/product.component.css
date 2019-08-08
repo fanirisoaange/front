@@ -11,7 +11,7 @@
     overflow: hidden;
     margin-bottom: 2%;
     margin-top: 2%;
-    margin-left: 13%
+    margin-left: 10%
 }
 
 .warning {
@@ -22,7 +22,7 @@
 .table{
   margin-left: auto;
   margin-right: auto;
-  width: 75%;
+  width: 85%;
 }
 
 .titleBloc {
@@ -36,4 +36,14 @@
 
 .btn-group-sm>.btn, .btn-sm {
   margin-right: 5% !important;
+}
+
+.iconProduct{
+  margin: 5px 5px 15px 5px;
+  padding: 0;
+}
+
+td img{
+  width: 100px !important;
+  margin: 5px 5px 5px 5px;
 }

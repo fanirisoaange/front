@@ -18,6 +18,7 @@
             <th scope="col">Désignation</th>
             <th scope="col">Quantité</th>
             <th scope="col">Prix (unitaire)</th>
+            <th scope="col">Image</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -40,6 +41,10 @@
             <td>
               <a>{{product.price}}</a>
             </td>
+            <td class="iconProduct">
+              <img *ngIf="product.image" [src]="product.image">
+            </td>
+            
             <td>
               <button class="btn btn-sm btn-warning" (click)="showProductEditForm(product)" matTooltip="Modifier">
                 <i class="fa fa-pencil"></i>
